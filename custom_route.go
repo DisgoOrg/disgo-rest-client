@@ -1,4 +1,4 @@
-package endpoints
+package restclient
 
 // CustomRoute is APIRoute but custom for you
 type CustomRoute struct {

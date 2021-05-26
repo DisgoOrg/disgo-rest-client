@@ -1,4 +1,4 @@
-package endpoints
+package restclient
 
 // Method is a HTTP request Method
 type Method string

@@ -1,4 +1,4 @@
-package endpoints
+package restclient
 
 // APIBaseRoute is the standard api base route used
 var APIBaseRoute = ""

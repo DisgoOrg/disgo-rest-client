@@ -5,11 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/DisgoOrg/log"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+
+	"github.com/DisgoOrg/log"
 )
 
 // rest errors
@@ -85,7 +86,7 @@ func (r *RestClient) Request(route *CompiledAPIRoute, rqBody interface{}, rsBody
 	if rs.Body != nil {
 		var buffer *bytes.Buffer
 		body, _ := ioutil.ReadAll(io.TeeReader(rs.Body, buffer))
-		rs.Body = io.NopCloser(buffer)
+		rs.Body = ioutil.NopCloser(buffer)
 		r.Logger().Debugf("response from %s, code %d, body: %s", route.URL(), rs.StatusCode, string(body))
 	}
 

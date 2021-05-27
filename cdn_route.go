@@ -4,9 +4,6 @@ import (
 	"errors"
 )
 
-// CDNBaseRoute is the standard cdn base route used
-var CDNBaseRoute = ""
-
 // FileExtension is the type of an image on Discord's CDN
 type FileExtension string
 
@@ -32,13 +29,13 @@ type CDNRoute struct {
 // NewCDNRoute generates a new discord cdn route struct
 func NewCDNRoute(url string, supportedFileExtensions []FileExtension, queryParams ...string) *CDNRoute {
 	return &CDNRoute{
-		Route:                   newRoute(CDNBaseRoute, url, queryParams),
+		Route:                   newRoute(CDN, url, append(queryParams, "size")),
 		supportedFileExtensions: supportedFileExtensions,
 	}
 }
 
 // Compile builds a full request URL based on provided arguments
-func (r *CDNRoute) Compile(queryParams map[string]interface{}, fileExtension FileExtension, args ...interface{}) (*CompiledCDNRoute, error) {
+func (r *CDNRoute) Compile(queryParams map[string]interface{}, fileExtension FileExtension, size int, args ...interface{}) (*CompiledCDNRoute, error) {
 	supported := false
 	for _, supportedFileExtension := range r.supportedFileExtensions {
 		if supportedFileExtension == fileExtension {

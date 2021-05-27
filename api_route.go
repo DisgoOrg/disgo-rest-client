@@ -1,8 +1,5 @@
 package restclient
 
-// APIBaseRoute is the standard api base route used
-var APIBaseRoute = ""
-
 // APIRoute is a basic struct containing Method and URL
 type APIRoute struct {
 	*Route
@@ -29,7 +26,7 @@ func (r *APIRoute) Method() Method {
 // NewAPIRoute generates a new discord api route struct
 func NewAPIRoute(method Method, url string, queryParams ...string) *APIRoute {
 	return &APIRoute{
-		Route:  newRoute(APIBaseRoute, url, queryParams),
+		Route:  newRoute(API, url, queryParams),
 		method: method,
 	}
 }

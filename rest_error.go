@@ -28,6 +28,11 @@ func (r *restErrorImpl) Error() string {
 	return r.err.Error()
 }
 
+// Error returns the specific error message
+func (r *restErrorImpl) String() string {
+	return r.err.Error()
+}
+
 // Response returns the http.Response. May be null depending on what broke during the request
 func (r *restErrorImpl) Response() *http.Response {
 	return r.response

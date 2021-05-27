@@ -1,4 +1,4 @@
-module github.com/DisgoOrg/restclient
+module github.com/DisgoOrg/disgo-rest-client
 
 go 1.16
 

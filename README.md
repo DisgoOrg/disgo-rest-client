@@ -1,1 +1,1 @@
-# rest-client
+# disgo-rest-client

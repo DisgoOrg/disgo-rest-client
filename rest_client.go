@@ -30,6 +30,7 @@ func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string,
 }
 
 type RestClient interface {
+	Close()
 	UserAgent() string
 	HttpClient() *http.Client
 	Logger() log.Logger
@@ -42,6 +43,10 @@ type RestClientImpl struct {
 	httpClient   *http.Client
 	logger       log.Logger
 	customHeader http.Header
+}
+
+func (r *RestClientImpl) Close() {
+	r.httpClient.CloseIdleConnections()
 }
 
 func (r *RestClientImpl) UserAgent() string {

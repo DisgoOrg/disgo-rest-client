@@ -221,5 +221,6 @@ var (
 
 // Other
 var (
-	InviteURL = NewRoute("https://discord.gg/{code}")
+	GatewayURL = NewRoute(API + "/gateway", "v", "encoding", "compress")
+	InviteURL  = NewRoute("https://discord.gg/{code}")
 )

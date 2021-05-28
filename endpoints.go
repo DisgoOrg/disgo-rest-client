@@ -151,7 +151,7 @@ var (
 var (
 	GetWebhook             = NewAPIRoute(GET, "/webhooks/{webhook.id}")
 	GetWebhookWithToken    = NewAPIRoute(GET, "/webhooks/{webhook.id}/{token}")
-	UpdateWebhok           = NewAPIRoute(PATCH, "/webhooks/{webhook.id}")
+	UpdateWebhook          = NewAPIRoute(PATCH, "/webhooks/{webhook.id}")
 	UpdateWebhokWithToken  = NewAPIRoute(PATCH, "/webhooks/{webhook.id}/{token}")
 	DeleteWebhook          = NewAPIRoute(DELETE, "/webhooks/{webhook.id}")
 	DeleteWebhookWithToken = NewAPIRoute(DELETE, "/webhooks/{webhook.id}/{token}")

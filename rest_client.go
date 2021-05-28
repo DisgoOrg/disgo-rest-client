@@ -66,7 +66,7 @@ func (r *RestClientImpl) Do(route *CompiledAPIRoute, rqBody interface{}, rsBody 
 }
 
 func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
-	var rqBuffer *bytes.Buffer
+	rqBuffer := &bytes.Buffer{}
 	var contentType string
 
 	if rqBody != nil {
@@ -78,6 +78,7 @@ func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 
 		default:
 			contentType = "application/json"
+			buffer = &bytes.Buffer{}
 			err := json.NewEncoder(buffer).Encode(rqBody)
 			if err != nil {
 				return NewRestError(nil, err)
@@ -104,7 +105,7 @@ func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 	}
 
 	if rs.Body != nil {
-		var buffer *bytes.Buffer
+		buffer := &bytes.Buffer{}
 		body, _ := ioutil.ReadAll(io.TeeReader(rs.Body, buffer))
 		rs.Body = ioutil.NopCloser(buffer)
 		r.Logger().Debugf("response from %s, code %d, body: %s", route.URL(), rs.StatusCode, string(body))

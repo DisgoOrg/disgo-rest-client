@@ -22,32 +22,39 @@ var (
 )
 
 // NewRestClient constructs a new RestClient with the given http.Client, log.Logger & useragent
-func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string) *RestClient {
+func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string) RestClient {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	return &RestClient{userAgent: userAgent, httpClient: httpClient, logger: logger}
+	return &RestClientImpl{userAgent: userAgent, httpClient: httpClient, logger: logger}
 }
 
-type RestClient struct {
+type RestClient interface {
+	UserAgent() string
+	HttpClient() *http.Client
+	Logger() log.Logger
+	Request(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError
+}
+
+type RestClientImpl struct {
 	userAgent  string
 	httpClient *http.Client
 	logger     log.Logger
 }
 
-func (r *RestClient) UserAgent() string {
+func (r *RestClientImpl) UserAgent() string {
 	return r.userAgent
 }
 
-func (r *RestClient) HttpClient() *http.Client {
+func (r *RestClientImpl) HttpClient() *http.Client {
 	return r.httpClient
 }
 
-func (r *RestClient) Logger() log.Logger {
+func (r *RestClientImpl) Logger() log.Logger {
 	return r.logger
 }
 
-func (r *RestClient) Request(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
+func (r *RestClientImpl) Request(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
 	var rqBuffer *bytes.Buffer
 	var contentType string
 

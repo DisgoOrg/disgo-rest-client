@@ -150,17 +150,17 @@ var (
 // Webhooks
 var (
 	GetWebhook             = NewAPIRoute(GET, "/webhooks/{webhook.id}")
-	GetWebhookWithToken    = NewAPIRoute(GET, "/webhooks/{webhook.id}/{token}")
+	GetWebhookWithToken    = NewAPIRoute(GET, "/webhooks/{webhook.id}/{webhook.token}")
 	UpdateWebhook          = NewAPIRoute(PATCH, "/webhooks/{webhook.id}")
-	UpdateWebhokWithToken  = NewAPIRoute(PATCH, "/webhooks/{webhook.id}/{token}")
+	UpdateWebhokWithToken  = NewAPIRoute(PATCH, "/webhooks/{webhook.id}/{webhook.token}")
 	DeleteWebhook          = NewAPIRoute(DELETE, "/webhooks/{webhook.id}")
-	DeleteWebhookWithToken = NewAPIRoute(DELETE, "/webhooks/{webhook.id}/{token}")
+	DeleteWebhookWithToken = NewAPIRoute(DELETE, "/webhooks/{webhook.id}/{webhook.token}")
 
-	CreateWebhookMessage       = NewAPIRoute(POST, "/webhooks/{webhook.id}", "wait", "thread_id")
-	CreateWebhookMessageSlack  = NewAPIRoute(POST, "/webhooks/{webhook.id}/slack", "wait")
-	CreateWebhookMessageGithub = NewAPIRoute(POST, "/webhooks/{webhook.id}/github", "wait")
-	UpdateWebhookMessage       = NewAPIRoute(POST, "/webhooks/{webhook.id}/{token}/messages/{message.id}")
-	DeleteWebhookMessage       = NewAPIRoute(POST, "/webhooks/{webhook.id}/{token}/messages/{message.id}")
+	CreateWebhookMessage       = NewAPIRoute(POST, "/webhooks/{webhook.id}/{webhook.token}", "wait", "thread_id")
+	CreateWebhookMessageSlack  = NewAPIRoute(POST, "/webhooks/{webhook.id}/{webhook.token}/slack", "wait")
+	CreateWebhookMessageGithub = NewAPIRoute(POST, "/webhooks/{webhook.id}/{webhook.token}/github", "wait")
+	UpdateWebhookMessage       = NewAPIRoute(POST, "/webhooks/{webhook.id}/{webhook.token}/messages/{message.id}")
+	DeleteWebhookMessage       = NewAPIRoute(POST, "/webhooks/{webhook.id}/{webhook.token}/messages/{message.id}")
 )
 
 // Invites
@@ -221,6 +221,6 @@ var (
 
 // Other
 var (
-	GatewayURL = NewRoute(API + "/gateway", "v", "encoding", "compress")
+	GatewayURL = NewRoute(API+"/gateway", "v", "encoding", "compress")
 	InviteURL  = NewRoute("https://discord.gg/{code}")
 )

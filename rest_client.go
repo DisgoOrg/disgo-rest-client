@@ -22,24 +22,26 @@ var (
 )
 
 // NewRestClient constructs a new RestClient with the given http.Client, log.Logger & useragent
-func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string) RestClient {
+func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string, customHeader http.Header) RestClient {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	return &RestClientImpl{userAgent: userAgent, httpClient: httpClient, logger: logger}
+	return &RestClientImpl{userAgent: userAgent, httpClient: httpClient, logger: logger, customHeader: customHeader}
 }
 
 type RestClient interface {
 	UserAgent() string
 	HttpClient() *http.Client
 	Logger() log.Logger
-	Request(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError
+	Do(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}) RestError
+	DoWithHeaders(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError
 }
 
 type RestClientImpl struct {
-	userAgent  string
-	httpClient *http.Client
-	logger     log.Logger
+	userAgent    string
+	httpClient   *http.Client
+	logger       log.Logger
+	customHeader http.Header
 }
 
 func (r *RestClientImpl) UserAgent() string {
@@ -54,7 +56,11 @@ func (r *RestClientImpl) Logger() log.Logger {
 	return r.logger
 }
 
-func (r *RestClientImpl) Request(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
+func (r *RestClientImpl) Do(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}) RestError {
+	return r.DoWithHeaders(route, rqBody, rsBody, r.customHeader)
+}
+
+func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
 	var rqBuffer *bytes.Buffer
 	var contentType string
 
@@ -81,7 +87,9 @@ func (r *RestClientImpl) Request(route *CompiledAPIRoute, rqBody interface{}, rs
 		return NewRestError(nil, err)
 	}
 
-	rq.Header = customHeader
+	if customHeader != nil {
+		rq.Header = customHeader
+	}
 	rq.Header.Set("User-Agent", r.UserAgent())
 	rq.Header.Set("Content-Type", contentType)
 

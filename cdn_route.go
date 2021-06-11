@@ -45,6 +45,10 @@ func (r *CDNRoute) Compile(queryParams map[string]interface{}, fileExtension Fil
 	if !supported {
 		return nil, errors.New("provided file extension: " + fileExtension.String() + " is not supported by discord on this endpoint!")
 	}
+	if queryParams == nil {
+		queryParams = map[string]interface{}{}
+	}
+	queryParams["size"] = size
 	compiledRoute, err := r.Route.Compile(queryParams, args...)
 	if err != nil {
 		return nil, err

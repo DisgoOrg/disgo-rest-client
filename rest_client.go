@@ -13,7 +13,7 @@ import (
 	"github.com/DisgoOrg/log"
 )
 
-// rest errors
+// all rest errors
 var (
 	ErrBadGateway   = errors.New("bad gateway could not reach destination")
 	ErrUnauthorized = errors.New("not authorized for this endpoint")
@@ -26,52 +26,57 @@ func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string,
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	return &RestClientImpl{userAgent: userAgent, httpClient: httpClient, logger: logger, customHeader: customHeader}
+	return &restClientImpl{userAgent: userAgent, httpClient: httpClient, logger: logger, customHeader: customHeader}
 }
 
+// RestClient allows doing requests to different endpoints
 type RestClient interface {
 	Close()
 	UserAgent() string
-	HttpClient() *http.Client
+	HTTPClient() *http.Client
 	Logger() log.Logger
 	Do(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}) RestError
 	DoWithHeaders(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError
 }
 
-type RestClientImpl struct {
+type restClientImpl struct {
 	userAgent    string
 	httpClient   *http.Client
 	logger       log.Logger
 	customHeader http.Header
 }
 
-func (r *RestClientImpl) Close() {
+func (r *restClientImpl) Close() {
 	r.httpClient.CloseIdleConnections()
 }
 
-func (r *RestClientImpl) UserAgent() string {
+func (r *restClientImpl) UserAgent() string {
 	return r.userAgent
 }
 
-func (r *RestClientImpl) HttpClient() *http.Client {
+func (r *restClientImpl) HTTPClient() *http.Client {
 	return r.httpClient
 }
 
-func (r *RestClientImpl) Logger() log.Logger {
+func (r *restClientImpl) Logger() log.Logger {
 	return r.logger
 }
 
-func (r *RestClientImpl) Do(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}) RestError {
+func (r *restClientImpl) Do(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}) RestError {
 	return r.DoWithHeaders(route, rqBody, rsBody, r.customHeader)
 }
 
-func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
+func (r *restClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface{}, rsBody interface{}, customHeader http.Header) RestError {
 	rqBuffer := &bytes.Buffer{}
 	var contentType string
 
 	if rqBody != nil {
 		var buffer *bytes.Buffer
 		switch v := rqBody.(type) {
+		case *MultipartBuffer:
+			contentType = v.ContentType
+			buffer = v.Buffer
+
 		case url.Values:
 			contentType = "application/x-www-form-urlencoded"
 			buffer = bytes.NewBufferString(v.Encode())
@@ -97,7 +102,9 @@ func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 		rq.Header = customHeader
 	}
 	rq.Header.Set("User-Agent", r.UserAgent())
-	rq.Header.Set("Content-Type", contentType)
+	if contentType != "" {
+		rq.Header.Set("Content-Type", contentType)
+	}
 
 	rs, err := r.httpClient.Do(rq)
 	if err != nil {

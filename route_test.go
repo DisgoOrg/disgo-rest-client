@@ -18,7 +18,7 @@ func TestRoute_Compile(t *testing.T) {
 	}
 	compiledRoute, err := TestRoute.Compile(queryParams, "test1", "test2", "test3")
 	assert.NoError(t, err)
-	assert.Equal(t, APIBaseRoute+"/channels/test1/messages/test2/reactions/test3/@me?wait=true", compiledRoute.URL())
+	assert.Equal(t, "/channels/test1/messages/test2/reactions/test3/@me?wait=true", compiledRoute.URL())
 }
 
 func TestAPIRoute_Compile(t *testing.T) {
@@ -27,20 +27,17 @@ func TestAPIRoute_Compile(t *testing.T) {
 	}
 	compiledRoute, err := APITestRoute.Compile(queryParams, "test1", "test2", "test3")
 	assert.NoError(t, err)
-	assert.Equal(t, APIBaseRoute+"/channels/test1/messages/test2/reactions/test3/@me?wait=true", compiledRoute.URL())
+	assert.Equal(t, API+"/channels/test1/messages/test2/reactions/test3/@me?wait=true", compiledRoute.URL())
 }
 
 func TestCDNRoute_Compile(t *testing.T) {
-	queryParams := map[string]interface{}{
-		"size": 256,
-	}
-	compiledRoute, err := CDNTestRoute.Compile(queryParams, PNG, "test1")
+	compiledRoute, err := CDNTestRoute.Compile(nil, PNG, 256, "test1")
 	assert.NoError(t, err)
-	assert.Equal(t, CDNBaseRoute+"/emojis/test1.png?size=256", compiledRoute.URL())
+	assert.Equal(t, CDN+"/emojis/test1.png?size=256", compiledRoute.URL())
 
-	compiledRoute, err = CDNTestRoute.Compile(queryParams, GIF, "test1")
+	compiledRoute, err = CDNTestRoute.Compile(nil, GIF, 512, "test1")
 	assert.NoError(t, err)
-	assert.Equal(t, CDNBaseRoute+"/emojis/test1.gif?size=256", compiledRoute.URL())
+	assert.Equal(t, CDN+"/emojis/test1.gif?size=512", compiledRoute.URL())
 }
 
 func TestCustomRoute_Compile(t *testing.T) {

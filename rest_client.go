@@ -72,6 +72,10 @@ func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 	if rqBody != nil {
 		var buffer *bytes.Buffer
 		switch v := rqBody.(type) {
+		case *MultipartBuffer:
+			contentType = "multipart/form-data"
+			buffer = v.Buffer
+
 		case url.Values:
 			contentType = "application/x-www-form-urlencoded"
 			buffer = bytes.NewBufferString(v.Encode())
@@ -97,7 +101,9 @@ func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 		rq.Header = customHeader
 	}
 	rq.Header.Set("User-Agent", r.UserAgent())
-	rq.Header.Set("Content-Type", contentType)
+	if contentType != "" {
+		rq.Header.Set("Content-Type", contentType)
+	}
 
 	rs, err := r.httpClient.Do(rq)
 	if err != nil {

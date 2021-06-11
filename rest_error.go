@@ -6,12 +6,14 @@ import (
 
 var _ RestError = (*restErrorImpl)(nil)
 
+// RestError holds the http.Response & an error
 type RestError interface {
 	error
 	Response() *http.Response
 }
 
-func NewRestError(response *http.Response, err error) *restErrorImpl {
+// NewRestError returns a new RestError with the given http.Response & error
+func NewRestError(response *http.Response, err error) RestError {
 	return &restErrorImpl{
 		err:      err,
 		response: response,

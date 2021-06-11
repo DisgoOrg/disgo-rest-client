@@ -73,7 +73,7 @@ func (r *RestClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 		var buffer *bytes.Buffer
 		switch v := rqBody.(type) {
 		case *MultipartBuffer:
-			contentType = "multipart/form-data"
+			contentType = v.ContentType
 			buffer = v.Buffer
 
 		case url.Values:

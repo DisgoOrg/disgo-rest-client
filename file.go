@@ -10,12 +10,14 @@ import (
 )
 
 type MultipartBuffer struct {
-	*bytes.Buffer
+	Buffer      *bytes.Buffer
+	ContentType string
 }
 
 func PayloadWithFiles(v interface{}, files ...File) (buffer *MultipartBuffer, err error) {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
+	writer.FormDataContentType()
 	defer func() {
 		_ = writer.Close()
 	}()
@@ -42,13 +44,7 @@ func PayloadWithFiles(v interface{}, files ...File) (buffer *MultipartBuffer, er
 		} else {
 			name = file.Name
 		}
-		var contentType string
-		if file.ContentType == "" {
-			contentType = "application/octet-stream"
-		} else {
-			contentType = file.ContentType
-		}
-		part, err = writer.CreatePart(partHeader(fmt.Sprintf(`form-data; name="file%d"; filename="%s"`, i, name), contentType))
+		part, err = writer.CreatePart(partHeader(fmt.Sprintf(`form-data; name="file%d"; filename="%s"`, i, name), "application/octet-stream"))
 		if err != nil {
 			return
 		}
@@ -58,7 +54,10 @@ func PayloadWithFiles(v interface{}, files ...File) (buffer *MultipartBuffer, er
 		}
 	}
 
-	buffer = &MultipartBuffer{Buffer: body}
+	buffer = &MultipartBuffer{
+		Buffer:      body,
+		ContentType: writer.FormDataContentType(),
+	}
 	return
 }
 
@@ -69,20 +68,18 @@ func partHeader(contentDisposition string, contentType string) textproto.MIMEHea
 	}
 }
 
-func NewFile(name string, reader io.Reader, contentType string, flags ...FileFlags) File {
+func NewFile(name string, reader io.Reader, flags ...FileFlags) File {
 	return File{
-		Name:        name,
-		Reader:      reader,
-		ContentType: contentType,
-		Flags:       FileFlagNone.Add(flags...),
+		Name:   name,
+		Reader: reader,
+		Flags:  FileFlagNone.Add(flags...),
 	}
 }
 
 type File struct {
-	Name        string
-	Reader      io.Reader
-	ContentType string
-	Flags       FileFlags
+	Name   string
+	Reader io.Reader
+	Flags  FileFlags
 }
 
 type FileFlags int

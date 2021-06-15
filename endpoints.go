@@ -9,6 +9,7 @@ const (
 )
 
 // Misc
+//goland:noinspection GoUnusedExportedConstant,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetGateway        = NewAPIRoute(GET, "/gateway")
 	GetGatewayBot     = NewAPIRoute(GET, "/gateway/bot")
@@ -17,19 +18,22 @@ var (
 )
 
 // Users
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetUser         = NewAPIRoute(GET, "/users/{user.id}")
 	GetSelfUser     = NewAPIRoute(GET, "/users/@me")
 	UpdateSelfUser  = NewAPIRoute(PATCH, "/users/@me")
-	GetGuilds       = NewAPIRoute(GET, "/users/@me/guilds")
+	GetGuilds       = NewAPIRoute(GET, "/users/@me/guilds", "before", "after", "limit")
 	LeaveGuild      = NewAPIRoute(DELETE, "/users/@me/guilds/{guild.id}")
 	GetDMChannels   = NewAPIRoute(GET, "/users/@me/channels")
 	CreateDMChannel = NewAPIRoute(POST, "/users/@me/channels")
 )
 
 // Guilds
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetGuild          = NewAPIRoute(GET, "/guilds/{guild.id}")
+	GetGuildPreview   = NewAPIRoute(GET, "/guilds/{guild.id}/preview")
 	CreateGuild       = NewAPIRoute(POST, "/guilds")
 	UpdateGuild       = NewAPIRoute(PATCH, "/guilds/{guild.id}")
 	DeleteGuild       = NewAPIRoute(DELETE, "/guilds/{guild.id}")
@@ -46,6 +50,7 @@ var (
 
 	GetMember        = NewAPIRoute(GET, "/guilds/{guild.id}/members/{user.id}")
 	GetMembers       = NewAPIRoute(GET, "/guilds/{guild.id}/members")
+	SearchMembers    = NewAPIRoute(GET, "/guilds/{guild.id}/members/search", "query", "limit")
 	AddMember        = NewAPIRoute(PUT, "/guilds/{guild.id}/members/{user.id}")
 	UpdateMember     = NewAPIRoute(PATCH, "/guilds/{guild.id}/members/{user.id}")
 	RemoveMember     = NewAPIRoute(DELETE, "/guilds/{guild.id}/members/{user.id}", "reason")
@@ -71,6 +76,7 @@ var (
 )
 
 // Roles
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetRoles            = NewAPIRoute(GET, "/guilds/{guild.id}/roles")
 	GetRole             = NewAPIRoute(GET, "/guilds/{guild.id}/roles/{role.id}")
@@ -82,6 +88,7 @@ var (
 )
 
 // Channels
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetChannel    = NewAPIRoute(GET, "/channels/{channel.id}")
 	UpdateChannel = NewAPIRoute(PATCH, "/channels/{channel.id}")
@@ -100,6 +107,7 @@ var (
 )
 
 // Threads
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	CreateThreadWithMessage = NewAPIRoute(POST, "/channels/{channel.id}/messages/{message.id}/threads")
 	CreateThread            = NewAPIRoute(POST, "/channels/{channel.id}/threads")
@@ -116,6 +124,7 @@ var (
 )
 
 // Messages
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetMessages       = NewAPIRoute(GET, "/channels/{channel.id}/messages")
 	GetMessage        = NewAPIRoute(GET, "/channels/{channel.id}/messages/{message.id}")
@@ -139,6 +148,7 @@ var (
 )
 
 // Emotes
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetEmotes   = NewAPIRoute(GET, "/guilds/{guild.id}/emojis")
 	Getemote    = NewAPIRoute(GET, "/guilds/{guild.id}/emojis/{emoji.id}")
@@ -148,6 +158,7 @@ var (
 )
 
 // Webhooks
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetWebhook             = NewAPIRoute(GET, "/webhooks/{webhook.id}")
 	GetWebhookWithToken    = NewAPIRoute(GET, "/webhooks/{webhook.id}/{webhook.token}")
@@ -164,6 +175,7 @@ var (
 )
 
 // Invites
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetInvite    = NewAPIRoute(GET, "/invites/{code}")
 	CreateInvite = NewAPIRoute(POST, "/channels/{channel.id}/invites")
@@ -174,6 +186,7 @@ var (
 )
 
 // Interactions
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GetGlobalCommands   = NewAPIRoute(GET, "/applications/{application.id}/commands")
 	GetGlobalCommand    = NewAPIRoute(GET, "/applications/{application.id}/command/{command.id}")
@@ -204,6 +217,7 @@ var (
 )
 
 // CDN
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	Emote                = NewCDNRoute("/emojis/{emote.id}.", []FileExtension{PNG, GIF})
 	GuildIcon            = NewCDNRoute("/icons/{guild.id}/{icon.hash}.", []FileExtension{PNG, JPEG, WEBP, GIF})
@@ -220,6 +234,7 @@ var (
 )
 
 // Other
+//goland:noinspection GoUnusedGlobalVariable,GoUnusedGlobalVariable
 var (
 	GatewayURL = NewRoute(API+"/gateway", "v", "encoding", "compress")
 	InviteURL  = NewRoute("https://discord.gg/{code}")

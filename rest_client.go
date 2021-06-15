@@ -22,6 +22,7 @@ var (
 )
 
 // NewRestClient constructs a new RestClient with the given http.Client, log.Logger & useragent
+//goland:noinspection GoUnusedExportedFunction
 func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string, customHeader http.Header) RestClient {
 	if httpClient == nil {
 		httpClient = http.DefaultClient

@@ -11,6 +11,8 @@ import (
 // BaseRoute is the standard base route used
 var BaseRoute = ""
 
+type QueryValues map[string]interface{}
+
 func newRoute(baseRoute string, url string, queryParams []string) *Route {
 	params := map[string]struct{}{}
 	for _, param := range queryParams {
@@ -33,7 +35,7 @@ type Route struct {
 }
 
 // Compile builds a full request URL based on provided arguments
-func (r *Route) Compile(queryParams map[string]interface{}, args ...interface{}) (*CompiledRoute, error) {
+func (r *Route) Compile(queryValues QueryValues, args ...interface{}) (*CompiledRoute, error) {
 	if len(args) != r.urlParamCount {
 		return nil, errors.New("invalid amount of arguments received. expected: " + strconv.Itoa(len(args)) + ", received: " + strconv.Itoa(r.urlParamCount))
 	}
@@ -48,9 +50,9 @@ func (r *Route) Compile(queryParams map[string]interface{}, args ...interface{})
 
 	compiledRoute := r.baseRoute + route
 	queryParamsStr := ""
-	if queryParams != nil {
+	if queryValues != nil {
 		query := url.Values{}
-		for param, value := range queryParams {
+		for param, value := range queryValues {
 			if _, ok := r.queryParams[param]; !ok {
 				return nil, errors.New("unexpected query param '" + param + "' received")
 			}

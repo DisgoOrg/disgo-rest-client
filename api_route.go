@@ -7,8 +7,8 @@ type APIRoute struct {
 }
 
 // Compile returns a CompiledAPIRoute
-func (r *APIRoute) Compile(queryParams map[string]interface{}, args ...interface{}) (*CompiledAPIRoute, error) {
-	compiledRoute, err := r.Route.Compile(queryParams, args...)
+func (r *APIRoute) Compile(queryValues QueryValues, args ...interface{}) (*CompiledAPIRoute, error) {
+	compiledRoute, err := r.Route.Compile(queryValues, args...)
 	if err != nil {
 		return nil, err
 	}

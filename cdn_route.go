@@ -29,13 +29,13 @@ type CDNRoute struct {
 // NewCDNRoute generates a new discord cdn route struct
 func NewCDNRoute(url string, supportedFileExtensions []FileExtension, queryParams ...string) *CDNRoute {
 	return &CDNRoute{
-		Route:                   newRoute(CDN, url, append(queryParams, "size")),
+		Route:                   newRoute(CDN, url, append(queryParams, "size", "v")),
 		supportedFileExtensions: supportedFileExtensions,
 	}
 }
 
 // Compile builds a full request URL based on provided arguments
-func (r *CDNRoute) Compile(queryParams map[string]interface{}, fileExtension FileExtension, size int, args ...interface{}) (*CompiledCDNRoute, error) {
+func (r *CDNRoute) Compile(queryValues QueryValues, fileExtension FileExtension, size int, args ...interface{}) (*CompiledCDNRoute, error) {
 	supported := false
 	for _, supportedFileExtension := range r.supportedFileExtensions {
 		if supportedFileExtension == fileExtension {
@@ -45,11 +45,11 @@ func (r *CDNRoute) Compile(queryParams map[string]interface{}, fileExtension Fil
 	if !supported {
 		return nil, errors.New("provided file extension: " + fileExtension.String() + " is not supported by discord on this endpoint!")
 	}
-	if queryParams == nil {
-		queryParams = map[string]interface{}{}
+	if queryValues == nil {
+		queryValues = QueryValues{}
 	}
-	queryParams["size"] = size
-	compiledRoute, err := r.Route.Compile(queryParams, args...)
+	queryValues["size"] = size
+	compiledRoute, err := r.Route.Compile(queryValues, args...)
 	if err != nil {
 		return nil, err
 	}

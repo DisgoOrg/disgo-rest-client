@@ -5,6 +5,7 @@ import (
 )
 
 var _ RestError = (*restErrorImpl)(nil)
+var _ error = (*restErrorImpl)(nil)
 
 // RestError holds the http.Response & an error
 type RestError interface {
@@ -12,8 +13,9 @@ type RestError interface {
 	Response() *http.Response
 }
 
-// NewRestError returns a new RestError with the given http.Response & error
-func NewRestError(response *http.Response, err error) RestError {
+// NewError returns a new Error with the given http.Response & error
+//goland:noinspection GoUnusedExportedFunction
+func NewError(response *http.Response, err error) RestError {
 	return &restErrorImpl{
 		err:      err,
 		response: response,

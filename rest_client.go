@@ -87,7 +87,7 @@ func (r *restClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 			buffer = &bytes.Buffer{}
 			err := json.NewEncoder(buffer).Encode(rqBody)
 			if err != nil {
-				return NewRestError(nil, err)
+				return NewError(nil, err)
 			}
 		}
 		body, _ := ioutil.ReadAll(io.TeeReader(buffer, rqBuffer))
@@ -96,7 +96,7 @@ func (r *restClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 
 	rq, err := http.NewRequest(route.Method().String(), route.URL(), rqBuffer)
 	if err != nil {
-		return NewRestError(nil, err)
+		return NewError(nil, err)
 	}
 
 	if customHeader != nil {
@@ -109,7 +109,7 @@ func (r *restClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 
 	rs, err := r.httpClient.Do(rq)
 	if err != nil {
-		return NewRestError(rs, err)
+		return NewError(rs, err)
 	}
 
 	if rs.Body != nil {
@@ -124,29 +124,29 @@ func (r *restClientImpl) DoWithHeaders(route *CompiledAPIRoute, rqBody interface
 		if rsBody != nil && rs.Body != nil {
 			if err = json.NewDecoder(rs.Body).Decode(rsBody); err != nil {
 				r.Logger().Errorf("error unmarshalling response. error: %s", err)
-				return NewRestError(rs, err)
+				return NewError(rs, err)
 			}
 		}
 		return nil
 
 	case http.StatusTooManyRequests:
 		r.Logger().Error(ErrRatelimited)
-		return NewRestError(rs, ErrRatelimited)
+		return NewError(rs, ErrRatelimited)
 
 	case http.StatusBadGateway:
 		r.Logger().Error(ErrBadGateway)
-		return NewRestError(rs, ErrBadGateway)
+		return NewError(rs, ErrBadGateway)
 
 	case http.StatusBadRequest:
 		r.Logger().Error(ErrBadRequest)
-		return NewRestError(rs, ErrBadRequest)
+		return NewError(rs, ErrBadRequest)
 
 	case http.StatusUnauthorized:
 		r.Logger().Error(ErrUnauthorized)
-		return NewRestError(rs, ErrUnauthorized)
+		return NewError(rs, ErrUnauthorized)
 
 	default:
 		body, _ := ioutil.ReadAll(rq.Body)
-		return NewRestError(rs, fmt.Errorf("request to %s failed. statuscode: %d, body: %s", rq.URL, rs.StatusCode, body))
+		return NewError(rs, fmt.Errorf("request to %s failed. statuscode: %d, body: %s", rq.URL, rs.StatusCode, body))
 	}
 }

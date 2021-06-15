@@ -8,9 +8,7 @@ import (
 	"strings"
 )
 
-// BaseRoute is the standard base route used
-var BaseRoute = ""
-
+// QueryValues is used to supply query param value pairs to Route.Compile
 type QueryValues map[string]interface{}
 
 func newRoute(baseRoute string, url string, queryParams []string) *Route {
@@ -73,7 +71,7 @@ func NewRoute(url string, queryParams ...string) *Route {
 		params[param] = struct{}{}
 	}
 	return &Route{
-		baseRoute:     BaseRoute,
+		baseRoute:     "",
 		route:         url,
 		queryParams:   params,
 		urlParamCount: countURLParams(url),

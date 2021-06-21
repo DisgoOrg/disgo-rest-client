@@ -73,6 +73,13 @@ var (
 	UpdateGuildIntegration = NewAPIRoute(PATCH, "/guilds/{guild.id}/integrations/{integration.id}")
 	DeleteGuildIntegration = NewAPIRoute(DELETE, "/guilds/{guild.id}/integrations/{integration.id}")
 	SyncGuildIntegration   = NewAPIRoute(POST, "/guilds/{guild.id}/integrations/{integration.id}/sync")
+
+	GetGuildTemplate    = NewAPIRoute(GET, "/guilds/templates/{template.code}")
+	GetGuildTemplates   = NewAPIRoute(GET, "/guilds/{guild.id}/templates")
+	CreateGuildTemplate = NewAPIRoute(POST, "/guilds/{guild.id}/templates")
+	SyncGuildTemplate   = NewAPIRoute(PUT, "/guilds/{guild.id}/templates/{template.code}")
+	UpdateGuildTemplate = NewAPIRoute(PATCH, "/guilds/{guild.id}/templates/{template.code}")
+	DeleteGuildTemplate = NewAPIRoute(DELETE, "/guilds/{guild.id}/templates/{template.code}")
 )
 
 // Roles

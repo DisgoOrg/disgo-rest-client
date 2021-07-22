@@ -45,7 +45,7 @@ var (
 
 	GetBans   = NewAPIRoute(GET, "/guilds/{guild.id}/bans")
 	GetBan    = NewAPIRoute(GET, "/guilds/{guild.id}/bans/{user.id}")
-	CreateBan = NewAPIRoute(POST, "/guilds/{guild.id}/bans/{user.id}", "delete_message_days", "reason")
+	AddBan    = NewAPIRoute(PUT, "/guilds/{guild.id}/bans/{user.id}")
 	DeleteBan = NewAPIRoute(DELETE, "/guilds/{guild.id}/bans/{user.id}")
 
 	GetMember        = NewAPIRoute(GET, "/guilds/{guild.id}/members/{user.id}")

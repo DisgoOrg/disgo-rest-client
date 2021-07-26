@@ -62,17 +62,17 @@ var (
 	GetPruneMembersCount = NewAPIRoute(GET, "/guilds/{guild.id}/prune")
 	PruneMembers         = NewAPIRoute(POST, "/guilds/{guild.id}/prune")
 
-	GetGuildWebhooks = NewAPIRoute(GET, "/guilds/{guild.id}/webhooks")
+	GetAllWebhooks = NewAPIRoute(GET, "/guilds/{guild.id}/webhooks")
 
-	GetGuildAuditLogs = NewAPIRoute(GET, "/guilds/{guild.id}/audit-logs")
+	GetAuditLogs = NewAPIRoute(GET, "/guilds/{guild.id}/audit-logs", "user_id", "action_type", "before", "limit")
 
 	GetGuildVoiceRegions = NewAPIRoute(GET, "/guilds/{guild.id}/regions")
 
-	GetGuildIntegrations   = NewAPIRoute(GET, "/guilds/{guild.id}/integrations")
-	CreateGuildIntegration = NewAPIRoute(POST, "/guilds/{guild.id}/integrations")
-	UpdateGuildIntegration = NewAPIRoute(PATCH, "/guilds/{guild.id}/integrations/{integration.id}")
-	DeleteGuildIntegration = NewAPIRoute(DELETE, "/guilds/{guild.id}/integrations/{integration.id}")
-	SyncGuildIntegration   = NewAPIRoute(POST, "/guilds/{guild.id}/integrations/{integration.id}/sync")
+	GetIntegrations   = NewAPIRoute(GET, "/guilds/{guild.id}/integrations")
+	CreateIntegration = NewAPIRoute(POST, "/guilds/{guild.id}/integrations")
+	UpdateIntegration = NewAPIRoute(PATCH, "/guilds/{guild.id}/integrations/{integration.id}")
+	DeleteIntegration = NewAPIRoute(DELETE, "/guilds/{guild.id}/integrations/{integration.id}")
+	SyncIntegration   = NewAPIRoute(POST, "/guilds/{guild.id}/integrations/{integration.id}/sync")
 
 	GetGuildTemplate        = NewAPIRoute(GET, "/guilds/templates/{template.code}")
 	GetGuildTemplates       = NewAPIRoute(GET, "/guilds/{guild.id}/templates")

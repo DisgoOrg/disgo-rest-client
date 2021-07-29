@@ -227,18 +227,24 @@ var (
 // CDN
 //goland:noinspection GoUnusedGlobalVariable
 var (
-	Emote                = NewCDNRoute("/emojis/{emote.id}.", []FileExtension{PNG, GIF})
-	GuildIcon            = NewCDNRoute("/icons/{guild.id}/{icon.hash}.", []FileExtension{PNG, JPEG, WEBP, GIF})
-	GuildSplash          = NewCDNRoute("/splashes/{guild.id}/guild.splash.", []FileExtension{PNG, JPEG, WEBP})
-	GuildDiscoverySplash = NewCDNRoute("/discovery-splashes/{guild.id}/guild.discovery.splash.", []FileExtension{PNG, JPEG, WEBP})
-	GuildBanner          = NewCDNRoute("/banners/{guild.id}/guild.banner.", []FileExtension{PNG, JPEG, WEBP})
-	DefaultUserAvatar    = NewCDNRoute("/embed/avatars/{user.discriminator%5}.", []FileExtension{PNG})
-	UserAvatar           = NewCDNRoute("/avatars/{user.id}/user.avatar.", []FileExtension{PNG, JPEG, WEBP, GIF})
-	ApplicationIcon      = NewCDNRoute("/app-icons/{application.id}/icon.", []FileExtension{PNG, JPEG, WEBP})
-	ApplicationAsset     = NewCDNRoute("/app-assets/{application.id}/{asset.id}.", []FileExtension{PNG, JPEG, WEBP})
-	AchievementIcon      = NewCDNRoute("/app-assets/{application.id}/achievements/{achievement.id}/icons/{icon.hash}.", []FileExtension{PNG, JPEG, WEBP})
-	TeamIcon             = NewCDNRoute("/team-icons/{team.id}/team.icon.", []FileExtension{PNG, JPEG, WEBP})
-	Attachments          = NewCDNRoute("/attachments/{channel.id}/{attachment.id}/{file.name}", []FileExtension{BLANK})
+	CustomEmoji = NewCDNRoute("/emojis/{emote.id}", []FileExtension{PNG, GIF})
+
+	GuildIcon            = NewCDNRoute("/icons/{guild.id}/{guild.icon.hash}", []FileExtension{PNG, JPEG, WEBP, GIF})
+	GuildSplash          = NewCDNRoute("/splashes/{guild.id}/{guild.splash.hash}", []FileExtension{PNG, JPEG, WEBP})
+	GuildDiscoverySplash = NewCDNRoute("/discovery-splashes/{guild.id}/{guild.discovery.splash.hash}", []FileExtension{PNG, JPEG, WEBP})
+	GuildBanner          = NewCDNRoute("/banners/{guild.id}/{guild.banner.hash}", []FileExtension{PNG, JPEG, WEBP})
+
+	DefaultUserAvatar = NewCDNRoute("/embed/avatars/{user.discriminator%5}", []FileExtension{PNG})
+	UserAvatar        = NewCDNRoute("/avatars/{user.id}/{user.avatar.hash}", []FileExtension{PNG, JPEG, WEBP, GIF})
+	UserBanner        = NewCDNRoute("/banners/{user.id}/{user.banner.hash}", []FileExtension{PNG, JPEG, WEBP, GIF})
+
+	ApplicationIcon  = NewCDNRoute("/app-icons/{application.id}/{icon.hash}", []FileExtension{PNG, JPEG, WEBP})
+	ApplicationCover = NewCDNRoute("/app-assets/{application.id}/{cover.image.hash}", []FileExtension{PNG, JPEG, WEBP})
+	ApplicationAsset = NewCDNRoute("/app-assets/{application.id}/{asset.id}", []FileExtension{PNG, JPEG, WEBP})
+
+	AchievementIcon = NewCDNRoute("/app-assets/{application.id}/achievements/{achievement.id}/icons/{icon.hash}", []FileExtension{PNG, JPEG, WEBP})
+	TeamIcon        = NewCDNRoute("/team-icons/{team.id}/{team.icon.hash}", []FileExtension{PNG, JPEG, WEBP})
+	Attachments     = NewCDNRoute("/attachments/{channel.id}/{attachment.id}/{file.name}", []FileExtension{BLANK})
 )
 
 // Other

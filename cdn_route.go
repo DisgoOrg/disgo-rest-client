@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-// FileExtension is the type of an image on Discord's CDN
+// FileExtension is the type of image on Discord's CDN
 type FileExtension string
 
 // The available FileExtension(s)
@@ -54,7 +54,9 @@ func (r *CDNRoute) Compile(queryValues QueryValues, fileExtension FileExtension,
 		return nil, err
 	}
 
-	compiledRoute.route += fileExtension.String()
+	if fileExtension.String() != "" {
+		compiledRoute.route += "." + fileExtension.String()
+	}
 	return &CompiledCDNRoute{CompiledRoute: compiledRoute}, nil
 }
 

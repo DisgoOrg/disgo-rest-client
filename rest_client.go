@@ -27,6 +27,9 @@ func NewRestClient(httpClient *http.Client, logger log.Logger, userAgent string,
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
+	if logger == nil {
+		logger = log.Default()
+	}
 	return &restClientImpl{userAgent: userAgent, httpClient: httpClient, logger: logger, customHeader: customHeader}
 }
 
